@@ -14,7 +14,8 @@ export interface TiposDatosPokemon{
 }
 
 export default function Pokemon() {
-  const [pokemons,setPokemons]= useState<TiposDatosPokemon[]>([])
+  const [pokemons,setPokemons]= useState<TiposDatosPokemon[]>([]);
+  const [nextUrl, setNextUrl] = useState<string | null>(null);
   
   useEffect (()=> {
     (async ()=>{
@@ -24,7 +25,8 @@ export default function Pokemon() {
 
   const loadPokemon = async () =>{
     try {
-      const response = await getPokemonApi();
+      const response = await getPokemonApi(nextUrl);
+      setNextUrl(response.next);
       const pokemonArray:TiposDatosPokemon[]= [];
       for await (const pokemon of response.results){
         const pokemonDetails = await getPokemonDetailsByUrlApi(pokemon.url);
@@ -46,7 +48,7 @@ export default function Pokemon() {
   }
   return (
     <SafeAreaView>
-      <PokemonList pokemons={pokemons}/>
+      <PokemonList pokemons={pokemons} loadPokemon={loadPokemon} isNext={nextUrl}/>
     </SafeAreaView>
   )
 }

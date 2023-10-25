@@ -7,12 +7,14 @@ interface PokemonListProps {
     pokemons: TiposDatosPokemon[];
     loadPokemon: () => Promise<void>;
     isNext:null | string;
+    isLoading:boolean;
   }
 
 export function PokemonList(props:PokemonListProps) {
-    const {pokemons, loadPokemon, isNext} = props;
+    const {pokemons, loadPokemon, isNext , isLoading} = props;
     
-    console.log(Platform.OS);
+  console.log(isNext);
+  
     
 
     const loadMore = () => {
@@ -31,11 +33,11 @@ export function PokemonList(props:PokemonListProps) {
     renderItem={(item)=> <PokemonCard pokemon={item.item}/>}
     contentContainerStyle={styles.flatListContainer}
     onEndReached={() => {
-      if(isNext) loadMore();
+      if(isNext && !isLoading ) {loadMore()};
       }}
     onEndReachedThreshold={0.1}
     ListFooterComponent={
-      isNext ? (      <ActivityIndicator
+      isNext && isLoading ? (      <ActivityIndicator
         size={'large'}
         style={styles.spinner} color={"#AEAEAE"}/>
   ):null}/>

@@ -6,16 +6,18 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export interface TiposDatosPokemon{
-  id: number,
+  id: string,
   name:string,
   type: string,
   order : number,
   imagen:string,
 }
 
-export default function Pokemon() {
+export default function PokedexContenido() {
   const [pokemons,setPokemons]= useState<TiposDatosPokemon[]>([]);
   const [nextUrl, setNextUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
   
   useEffect (()=> {
     (async ()=>{
@@ -25,6 +27,8 @@ export default function Pokemon() {
 
   const loadPokemon = async () =>{
     try {
+      // inicializamos la "carga" del request
+      setLoading(true);
       const response = await getPokemonApi(nextUrl);
       setNextUrl(response.next);
       const pokemonArray:TiposDatosPokemon[]= [];
@@ -44,11 +48,14 @@ export default function Pokemon() {
       
     } catch (error) {
       console.error(error)
-    }
+    }finally {
+      // regresamos loading a false
+          setLoading(false);
+        }
   }
   return (
     <SafeAreaView>
-      <PokemonList pokemons={pokemons} loadPokemon={loadPokemon} isNext={nextUrl}/>
+      <PokemonList pokemons={pokemons} loadPokemon={loadPokemon} isNext={nextUrl} isLoading={loading}/>
     </SafeAreaView>
   )
 }

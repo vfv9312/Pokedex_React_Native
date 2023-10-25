@@ -1,21 +1,26 @@
 import { View, Text,StyleSheet, Image, TouchableWithoutFeedback } from 'react-native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 import type { TiposDatosPokemon } from '../Pokemon';
 import { capitalize } from "lodash"
 import React from 'react'
-import Pokemon from '../Pokemon';
 import getColorByPokemonType from '../../utils/getColorByPokemonType';
+import type { PokedexStackParamList } from '../Navigation/PokedexNavigation';
+
 
 
 
 export function PokemonCard(props: { pokemon: TiposDatosPokemon; }) {
     const {pokemon} = props;
+    const navigation = useNavigation< NativeStackNavigationProp<PokedexStackParamList>>();
+    
 
     const pokemonColor = getColorByPokemonType(pokemon.type);
     const bgStyles = { backgroundColor:pokemonColor, ...styles.bgStyles}
 
     const goToPokemon = () => {
-        console.log(`Vamos al pokemon : ${pokemon.name}`);
-        
+        navigation.navigate('Pokemon', { id: pokemon.id });// en este caso solo pasaremos el id como props
+
     }
    
     

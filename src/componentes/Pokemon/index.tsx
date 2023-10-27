@@ -5,7 +5,7 @@ import { PokemonList } from "../PokemonList";
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export interface TiposDatosPokemon{
+export interface TiposDatosPokemon{//tipamos los datos que recibiremos en la api
   id: string,
   name:string,
   type: string,
@@ -14,25 +14,25 @@ export interface TiposDatosPokemon{
 }
 
 export default function PokedexContenido() {
-  const [pokemons,setPokemons]= useState<TiposDatosPokemon[]>([]);
-  const [nextUrl, setNextUrl] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [pokemons,setPokemons]= useState<TiposDatosPokemon[]>([]); //creamos un array que tendra los datos que tipamos
+  const [nextUrl, setNextUrl] = useState<string | null>(null); // nos guardara en string
+  const [loading, setLoading] = useState<boolean>(false); // servira para validar
 
   
   useEffect (()=> {
     (async ()=>{
-      await loadPokemon();
+      await loadPokemon();// si es positivo entra el loadPokemon
     })();
-  },[]);
+  },[]);//no se vuelve a renderizar
 
-  const loadPokemon = async () =>{
-    try {
+  const loadPokemon = async () =>{//una funcion anonima  async
+    try {//si esta bien entra
       // inicializamos la "carga" del request
-      setLoading(true);
-      const response = await getPokemonApi(nextUrl);
-      setNextUrl(response.next);
-      const pokemonArray:TiposDatosPokemon[]= [];
-      for await (const pokemon of response.results){
+      setLoading(true);//validamos el estado loading en true
+      const response = await getPokemonApi(nextUrl);// llamamos la funcion para optener api y enviamos. nextUrl que puede tener una url o un null
+      setNextUrl(response.next);//actualizamos si responde el api
+      const pokemonArray:TiposDatosPokemon[]= [];//creamos una constante que tendra los pokemones extraidos de la api
+      for await (const pokemon of response.results){ // un for await
         const pokemonDetails = await getPokemonDetailsByUrlApi(pokemon.url);
         
         pokemonArray.push({

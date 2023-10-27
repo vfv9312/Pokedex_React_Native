@@ -6,12 +6,11 @@ const Stack = createStackNavigator();
 
 export default function FavoriteNavigation() {
   return (
-    <Stack.Navigator
-    screenOptions={{ headerShown:false }}
-    >
+    <Stack.Navigator>
       <Stack.Screen
         name="Favorite"
         component={FavoriteScreen}
+        options={{headerTitle: "Favoritos", headerTitleAlign:"center"}}
       />
       
     </Stack.Navigator>

@@ -12,6 +12,7 @@ const Tab=createBottomTabNavigator();
 export default function Navigation(){
 //screenOptions={{ headerShown:false }} quita la barra de titulo de la parte de arriba para que no se duplique con el de stack tambien se puede hacer al reves
   return(<Tab.Navigator
+  initialRouteName="Pokedex"
     screenOptions={{ headerShown:false ,
       tabBarActiveTintColor: '#e91e63'}}
   
@@ -25,5 +26,5 @@ export default function Navigation(){
  
 
     function renderPokeball(){return(<Image
-      source={require("../../assets/icono_pokedex.png")}
+      source={require("../../../assets/icon.png")}
       style={{width:75,height:75,top:-20}}/>);}

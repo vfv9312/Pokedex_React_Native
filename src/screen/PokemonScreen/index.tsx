@@ -8,20 +8,25 @@ import { ScrollView } from 'react-native';
 import PokemonType from '../../componentes/PokemonType';
 import PokemonStats from '../../componentes/PokemonStats';
 import  Icon  from 'react-native-vector-icons/FontAwesome';
+import PokemonFavorite from '../../componentes/PokemonFavorite';
+import useAuth from '../../hooks/useAuth';
 
 type PokemonProps = NativeStackScreenProps<PokedexStackParamList, 'Pokemon'>;//creamos un type para tipar los props
-type TiposDatosPokemonModificado = Omit<TiposDatosPokemon, "type"| "imagen"> & {types:[{type:{name:string}}]} & {stats:{}} & {sprites:{other:{"official-artwork":{front_default:string}}}} ;
+export type TiposDatosPokemonModificado = Omit<TiposDatosPokemon, "type"| "imagen"> & {types:[{type:{name:string}}]} & {stats:{}} & {sprites:{other:{"official-artwork":{front_default:string}}}} ;
 //omitimos algunos valores del TiposDatosPokemon y agregamos otros con los datos de manejaremos
 export default function PokemonScreen(props:PokemonProps) {
   const {route, navigation} = props;//destructuramos props para sacar route navigatigation 
   const {id} = route.params; // Accede a la propiedad 'params' directamente
   //console.log(id);
   const [pokemon, setPokemon] = useState<TiposDatosPokemonModificado | null>(null);//tipamos con los datos que extraemos
+
+const {auth} = useAuth();
+
 useEffect(() => {
 navigation.setOptions({
-  headerRight:()=>null,
+  headerRight:()=> auth ? <PokemonFavorite id={id}/> : undefined,
   headerLeft:()=> <Icon name='arrow-left' color="#fff" size={20} style={{marginLeft :20}}
-  onPress={()=>console.log("atras")
+  onPress={()=> navigation.goBack()
   }/>,
 })
 }, [navigation, id])
@@ -45,7 +50,7 @@ navigation.setOptions({
     <ScrollView>
       <PokemonHeader //Componente Header le mandaremos los datos de la Api 
 id={pokemon.id}
-name={pokemon.name}
+name={`${pokemon.name}`}
 order={pokemon.order}
 imagen={pokemon.sprites.other["official-artwork"].front_default}
 type={pokemon.types[0].type.name}/>

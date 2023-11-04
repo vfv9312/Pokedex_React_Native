@@ -5,7 +5,7 @@ import { map, capitalize } from "lodash";
 export default function PokemonStats(props:any) {
   const { stats } = props;
 
-console.log(stats);
+
 
 
   return (

@@ -13,7 +13,7 @@ interface PokemonListProps {
 export function PokemonList(props:PokemonListProps) {
     const {pokemons, loadPokemon, isNext , isLoading} = props;
     
-  console.log(isNext);
+
   
     
 

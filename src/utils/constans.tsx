@@ -1,4 +1,5 @@
 export const API_HOST = "https://pokeapi.co/api/v2/";
+export const FAVORITE_STORAGE = "favorites"//nombre del espacio reservado que se guardara en el storage
 
 export const POKEMON_TYPE_COLORS:{
     [key: string]: string;
